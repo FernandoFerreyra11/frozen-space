@@ -2,7 +2,8 @@
 // Frozen Space - API Client
 // =============================================
 
-const BASE_URL = '/api';
+const API_PORT = 3001;
+const BASE_URL = `http://${window.location.hostname}:${API_PORT}/api`;
 
 function getToken() {
   return localStorage.getItem('fs-token');
