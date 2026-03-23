@@ -1,0 +1,25 @@
+{
+  "name": "frozen-space",
+  "version": "1.0.0",
+  "description": "QA Testing Practice Platform - Entrena tus habilidades de Testing Automatizado",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:client": "vite client",
+    "dev:server": "node --watch server/index.js",
+    "db:init": "node server/scripts/initDb.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "jsonwebtoken": "^9.0.2",
+    "msnodesqlv8": "^5.1.5",
+    "mssql": "^11.0.1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1",
+    "vite": "^5.4.8"
+  }
+}

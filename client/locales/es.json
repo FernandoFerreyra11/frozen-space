@@ -1,0 +1,127 @@
+{
+  "app_name": "Frozen Space",
+  "nav": {
+    "home": "Inicio",
+    "challenges": "Desafíos",
+    "tools": "Herramientas",
+    "progress": "Progreso",
+    "contact": "Contacto",
+    "login": "Iniciar Sesión",
+    "register": "Registrarse",
+    "logout": "Cerrar Sesión",
+    "start": "Comenzar",
+    "language": "EN"
+  },
+  "hero": {
+    "title_1": "Entrena tus habilidades de",
+    "title_2": "Testing Automatizado",
+    "subtitle": "Practica con herramientas reales como Jira, GitHub, Bitbucket, Selenium y Cypress. Mide tu progreso y certifica tus habilidades de QA.",
+    "cta_primary": "Explorar Desafíos",
+    "cta_secondary": "Ver Demo",
+    "stat_challenges": "Desafíos",
+    "stat_technologies": "Tecnologías",
+    "stat_levels": "Niveles"
+  },
+  "ecosystem": {
+    "label": "Ecosistema",
+    "title": "Todo lo que necesitas para ser un QA experto",
+    "subtitle": "Nuestra plataforma integra las herramientas y metodologías más utilizadas en la industria",
+    "pillar_1_title": "Desafíos de Testing",
+    "pillar_1_desc": "Practica con escenarios reales de testing. Desde test cases en Jira hasta automatización con Cypress y Selenium.",
+    "pillar_2_title": "Simulador de Herramientas",
+    "pillar_2_desc": "Interfaces interactivas que simulan Jira, GitHub y Bitbucket para que practiques sin riesgo.",
+    "pillar_3_title": "Medición de Progreso",
+    "pillar_3_desc": "Dashboard con analytics de tus habilidades. Identifica fortalezas y áreas de mejora."
+  },
+  "challenges": {
+    "label": "Desafíos",
+    "title": "Pon a prueba tus habilidades",
+    "subtitle": "Desafíos prácticos diseñados por expertos en QA para que aprendas haciendo",
+    "filter_all": "Todos",
+    "time": "min",
+    "test_cases": "test cases",
+    "start_challenge": "Comenzar Desafío",
+    "view_details": "Ver Detalles",
+    "difficulty": {
+      "beginner": "Principiante",
+      "intermediate": "Intermedio",
+      "advanced": "Avanzado"
+    },
+    "category": {
+      "test_management": "Gestión de Tests",
+      "api_testing": "Testing de API",
+      "code_review": "Code Review",
+      "ci_cd": "CI/CD",
+      "e2e_testing": "Testing E2E",
+      "bug_tracking": "Bug Tracking",
+      "automation": "Automatización",
+      "reporting": "Reportes",
+      "performance": "Performance"
+    }
+  },
+  "why": {
+    "label": "¿Por qué elegirnos?",
+    "title": "Aprende haciendo, no solo leyendo",
+    "subtitle": "Metodología práctica que te prepara para el mundo real del QA",
+    "feature_1_title": "Aprende Haciendo",
+    "feature_1_desc": "Simulaciones prácticas con herramientas reales de la industria",
+    "feature_2_title": "Herramientas Reales",
+    "feature_2_desc": "Jira, GitHub, Bitbucket, Selenium, Cypress, Postman y más",
+    "feature_3_title": "Feedback Instantáneo",
+    "feature_3_desc": "Resultados en tiempo real con sugerencias de mejora",
+    "feature_4_title": "Escalable",
+    "feature_4_desc": "Nuevos módulos y desafíos se agregan constantemente"
+  },
+  "contact": {
+    "label": "Contacto",
+    "title": "Solicita una Demo",
+    "subtitle": "Prueba la plataforma que están utilizando equipos de QA líderes",
+    "name": "Nombre completo",
+    "email": "Email corporativo",
+    "company": "Empresa",
+    "role": "Rol",
+    "submit": "Solicitar Demo",
+    "features": [
+      "Desafíos de testing en tiempo real",
+      "Simuladores de herramientas",
+      "Dashboard de progreso y analytics",
+      "Soporte continuo"
+    ]
+  },
+  "login_page": {
+    "title": "Bienvenido de vuelta",
+    "subtitle": "Inicia sesión para continuar tu entrenamiento",
+    "email": "Email",
+    "password": "Contraseña",
+    "name": "Nombre completo",
+    "submit_login": "Iniciar Sesión",
+    "submit_register": "Crear Cuenta",
+    "no_account": "¿No tienes cuenta?",
+    "has_account": "¿Ya tienes cuenta?",
+    "register_link": "Regístrate aquí",
+    "login_link": "Inicia sesión",
+    "register_title": "Crea tu cuenta",
+    "register_subtitle": "Comienza tu camino en Testing Automatizado"
+  },
+  "dashboard": {
+    "welcome": "Bienvenido,",
+    "my_progress": "Mi Progreso",
+    "completed": "Completados",
+    "in_progress": "En Progreso",
+    "total_score": "Puntuación Total",
+    "recent_activity": "Actividad Reciente"
+  },
+  "footer": {
+    "desc": "Plataforma de entrenamiento en Testing Automatizado. Practica con herramientas reales y mide tu progreso.",
+    "platform": "Plataforma",
+    "resources": "Recursos",
+    "company": "Empresa",
+    "blog": "Blog",
+    "docs": "Documentación",
+    "about": "Sobre Nosotros",
+    "careers": "Carreras",
+    "privacy": "Privacidad",
+    "terms": "Términos",
+    "rights": "Todos los derechos reservados."
+  }
+}
