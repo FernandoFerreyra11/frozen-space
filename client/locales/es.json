@@ -3,6 +3,7 @@
   "nav": {
     "home": "Inicio",
     "challenges": "Desafíos",
+    "blog": "Blog",
     "tools": "Herramientas",
     "progress": "Progreso",
     "contact": "Contacto",
@@ -123,5 +124,12 @@
     "privacy": "Privacidad",
     "terms": "Términos",
     "rights": "Todos los derechos reservados."
+  },
+  "blog": {
+    "label": "Comunidad",
+    "title": "Tus posts nos importan",
+    "subtitle": "Seguí desarrollando tu potencial",
+    "description": "Dejanos tus mejores estrategias para superar los desafíos. Cuál fue la mayor dificultad que tuviste o los momentos en que mejor te sentiste con el aprendizaje.",
+    "comments_title": "Comentarios"
   }
 }

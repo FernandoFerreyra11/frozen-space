@@ -71,4 +71,17 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ status, score }),
     }),
+
+  // Blog
+  getPosts: () => request('/blog'),
+  createPost: (postData) =>
+    request('/blog', {
+      method: 'POST',
+      body: JSON.stringify(postData),
+    }),
+  addComment: (postId, content) =>
+    request(`/blog/${postId}/comments`, {
+      method: 'POST',
+      body: JSON.stringify({ content }),
+    }),
 };

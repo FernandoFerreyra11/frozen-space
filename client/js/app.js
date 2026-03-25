@@ -6,6 +6,7 @@ import { registerRoute, initRouter, navigate } from './router.js';
 import { renderLoginPage } from '../pages/login.js';
 import { renderHomePage } from '../pages/home.js';
 import { renderChallengesPage } from '../pages/challenges.js';
+import { renderBlogPage } from '../pages/blog.js';
 import { isAuthenticated } from './auth.js';
 
 // Register routes
@@ -23,6 +24,10 @@ registerRoute('/home', (container) => {
 
 registerRoute('/challenges', (container) => {
   return renderChallengesPage(container);
+});
+
+registerRoute('/blog', (container) => {
+  return renderBlogPage(container);
 });
 
 // Initialize router

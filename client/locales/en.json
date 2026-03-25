@@ -3,6 +3,7 @@
   "nav": {
     "home": "Home",
     "challenges": "Challenges",
+    "blog": "Blog",
     "tools": "Tools",
     "progress": "Progress",
     "contact": "Contact",
@@ -123,5 +124,12 @@
     "privacy": "Privacy",
     "terms": "Terms",
     "rights": "All rights reserved."
+  },
+  "blog": {
+    "label": "Community",
+    "title": "Your posts matter to us",
+    "subtitle": "Keep developing your potential",
+    "description": "Leave us your best strategies to overcome challenges. What was your greatest difficulty or the moments you felt best with your learning?",
+    "comments_title": "Comments"
   }
 }

@@ -34,6 +34,7 @@ export async function renderChallengesPage(container) {
         <div class="navbar__nav" id="nav-menu">
           <a class="navbar__link" href="#/home" data-i18n="nav.home">${t('nav.home')}</a>
           <a class="navbar__link active" href="#/challenges" data-i18n="nav.challenges">${t('nav.challenges')}</a>
+          <a class="navbar__link" href="#/blog" data-i18n="nav.blog">${t('nav.blog') || 'Blog'}</a>
           <a class="navbar__link" href="#/home#contact" data-i18n="nav.contact">${t('nav.contact')}</a>
         </div>
         <div class="navbar__actions">

@@ -22,6 +22,7 @@ export function renderHomePage(container) {
         <div class="navbar__nav" id="nav-menu">
           <a class="navbar__link active" href="#/home" data-i18n="nav.home">${t('nav.home')}</a>
           <a class="navbar__link" href="#/challenges" data-i18n="nav.challenges">${t('nav.challenges')}</a>
+          <a class="navbar__link" href="#/blog" data-i18n="nav.blog">${t('nav.blog') || 'Blog'}</a>
           <a class="navbar__link" href="#contact" data-section="contact" data-i18n="nav.contact">${t('nav.contact')}</a>
         </div>
         <div class="navbar__actions">
@@ -208,7 +209,7 @@ export function renderHomePage(container) {
           <div>
             <h4 class="footer__col-title" data-i18n="footer.resources">${t('footer.resources')}</h4>
             <div class="footer__links">
-              <a href="#" class="footer__link" data-i18n="footer.blog">${t('footer.blog')}</a>
+              <a href="#/blog" class="footer__link" data-i18n="footer.blog">${t('footer.blog')}</a>
               <a href="#" class="footer__link" data-i18n="footer.docs">${t('footer.docs')}</a>
             </div>
           </div>

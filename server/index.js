@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.js';
 import challengesRoutes from './routes/challenges.js';
+import blogRoutes from './routes/blog.js';
 import { testConnection } from './config/db.js';
 
 dotenv.config();
@@ -17,6 +18,7 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/challenges', challengesRoutes);
+app.use('/api/blog', blogRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

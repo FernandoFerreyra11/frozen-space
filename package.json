@@ -7,7 +7,8 @@
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "dev:client": "vite client",
     "dev:server": "node --watch server/index.js",
-    "db:init": "node server/scripts/initDb.js"
+    "db:init": "node server/scripts/initDb.js",
+    "db:blog": "node server/scripts/add_blog_tables.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -20,6 +21,6 @@
   },
   "devDependencies": {
     "concurrently": "^9.0.1",
-    "vite": "^5.4.8"
+    "vite": "^8.0.2"
   }
 }
