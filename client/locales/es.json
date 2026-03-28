@@ -87,7 +87,10 @@
       "Simuladores de herramientas",
       "Dashboard de progreso y analytics",
       "Soporte continuo"
-    ]
+    ],
+    "success_msg": "¡Solicitud enviada! Te contactaremos pronto.",
+    "duplicate_msg": "Ya recibimos una solicitud de demo con estos datos, te responderemos a la brevedad. Gracias",
+    "error_msg": "Hubo un error al enviar la solicitud. Por favor intenta más tarde."
   },
   "login_page": {
     "title": "Bienvenido de vuelta",

@@ -84,4 +84,11 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ content }),
     }),
+
+  // Demo
+  postDemoRequest: (demoData) =>
+    request('/demo', {
+      method: 'POST',
+      body: JSON.stringify(demoData),
+    }),
 };

@@ -87,7 +87,10 @@
       "Tool simulators",
       "Progress dashboard & analytics",
       "Continuous support"
-    ]
+    ],
+    "success_msg": "Request sent! We will contact you soon.",
+    "duplicate_msg": "We already received a demo request with these details, we will respond shortly. Thanks",
+    "error_msg": "There was an error sending the request. Please try again later."
   },
   "login_page": {
     "title": "Welcome back",

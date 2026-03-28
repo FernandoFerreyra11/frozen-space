@@ -155,19 +155,19 @@ export function renderHomePage(container) {
               <form id="demo-form">
                 <div class="form-group">
                   <label class="form-label" data-i18n="contact.name">${t('contact.name')}</label>
-                  <input type="text" class="form-input" placeholder="${t('contact.name')}" required>
+                  <input type="text" name="name" class="form-input" placeholder="${t('contact.name')}" required>
                 </div>
                 <div class="form-group">
                   <label class="form-label" data-i18n="contact.email">${t('contact.email')}</label>
-                  <input type="email" class="form-input" placeholder="${t('contact.email')}" required>
+                  <input type="email" name="email" class="form-input" placeholder="${t('contact.email')}" required>
                 </div>
                 <div class="form-group">
                   <label class="form-label" data-i18n="contact.company">${t('contact.company')}</label>
-                  <input type="text" class="form-input" placeholder="${t('contact.company')}">
+                  <input type="text" name="company" class="form-input" placeholder="${t('contact.company')}">
                 </div>
                 <div class="form-group">
                   <label class="form-label" data-i18n="contact.role">${t('contact.role')}</label>
-                  <input type="text" class="form-input" placeholder="${t('contact.role')}">
+                  <input type="text" name="role" class="form-input" placeholder="${t('contact.role')}">
                 </div>
                 <button type="submit" class="btn btn--primary btn--block" data-i18n="contact.submit">${t('contact.submit')}</button>
               </form>
@@ -289,9 +289,45 @@ function setupHomeInteractions() {
   revealElements.forEach((el) => observer.observe(el));
 
   // Demo form
-  document.getElementById('demo-form')?.addEventListener('submit', (e) => {
+  document.getElementById('demo-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    alert(getCurrentLang() === 'es' ? '¡Solicitud enviada! Te contactaremos pronto.' : 'Request sent! We will contact you soon.');
+    const form = e.target;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn.textContent;
+    
+    // Get form data
+    const formData = new FormData(form);
+    const data = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      company: formData.get('company'),
+      role: formData.get('role')
+    };
+
+    try {
+      // Loading state
+      submitBtn.disabled = true;
+      submitBtn.textContent = getCurrentLang() === 'es' ? 'Enviando...' : 'Sending...';
+
+      const response = await api.postDemoRequest(data);
+      
+      // Success message from translation
+      alert(t('contact.success_msg') || response.message);
+      form.reset();
+    } catch (err) {
+      console.error('Demo request error:', err);
+      
+      // Handle the specific 409 Conflict for duplicates
+      if (err.status === 409) {
+        alert(t('contact.duplicate_msg') || err.message);
+      } else {
+        alert(t('contact.error_msg') || 'Error al enviar la solicitud');
+      }
+    } finally {
+      // Restore button state
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalBtnText;
+    }
   });
 
   // Smooth scroll for section links
