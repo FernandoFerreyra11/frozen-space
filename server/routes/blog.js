@@ -1,24 +1,8 @@
 import { Router } from 'express';
 import { query } from '../config/db.js';
-import jwt from 'jsonwebtoken';
+import { authenticateToken, authorizeOwnerOrAdmin } from '../middleware/auth.js';
 
 const router = Router();
-
-// Middleware de autenticación simple
-const authenticate = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-
-  if (!token) return res.status(401).json({ error: 'No autenticado' });
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (err) {
-    res.status(403).json({ error: 'Token inválido' });
-  }
-};
 
 // GET /api/blog - Listar todos los posts
 router.get('/', async (req, res) => {
@@ -49,7 +33,7 @@ router.get('/', async (req, res) => {
 });
 
 // POST /api/blog - Crear un post
-router.post('/', authenticate, async (req, res) => {
+router.post('/', authenticateToken, async (req, res) => {
   try {
     const { title, content, image1, image2 } = req.body;
 
@@ -73,8 +57,42 @@ router.post('/', authenticate, async (req, res) => {
   }
 });
 
+// PUT /api/blog/:id - Actualizar un post
+router.put('/:id', authenticateToken, await authorizeOwnerOrAdmin('BlogPosts', 'id', 'author_id'), async (req, res) => {
+  try {
+    const { title, content, image1, image2 } = req.body;
+    const postId = req.params.id;
+
+    if (!title || !content) {
+      return res.status(400).json({ error: 'Título y contenido son requeridos' });
+    }
+
+    await query(
+      `UPDATE BlogPosts SET title = ?, content = ?, image1 = ?, image2 = ? WHERE id = ?`,
+      [title, content, image1 || null, image2 || null, postId]
+    );
+
+    res.json({ message: 'Post actualizado exitosamente' });
+  } catch (err) {
+    console.error('Update post error:', err);
+    res.status(500).json({ error: 'Error al actualizar el post' });
+  }
+});
+
+// DELETE /api/blog/:id - Eliminar un post
+router.delete('/:id', authenticateToken, await authorizeOwnerOrAdmin('BlogPosts', 'id', 'author_id'), async (req, res) => {
+  try {
+    const postId = req.params.id;
+    await query(`DELETE FROM BlogPosts WHERE id = ?`, [postId]);
+    res.json({ message: 'Post eliminado exitosamente' });
+  } catch (err) {
+    console.error('Delete post error:', err);
+    res.status(500).json({ error: 'Error al eliminar el post' });
+  }
+});
+
 // POST /api/blog/:id/comments - Agregar un comentario
-router.post('/:id/comments', authenticate, async (req, res) => {
+router.post('/:id/comments', authenticateToken, async (req, res) => {
   try {
     const { content } = req.body;
     const postId = req.params.id;
@@ -92,6 +110,18 @@ router.post('/:id/comments', authenticate, async (req, res) => {
   } catch (err) {
     console.error('Comment error:', err);
     res.status(500).json({ error: 'Error al agregar el comentario' });
+  }
+});
+
+// DELETE /api/blog/:postId/comments/:commentId - Eliminar un comentario (Moderación)
+router.delete('/:postId/comments/:commentId', authenticateToken, await authorizeOwnerOrAdmin('Comments', 'commentId', 'user_id'), async (req, res) => {
+  try {
+    const commentId = req.params.commentId;
+    await query(`DELETE FROM Comments WHERE id = ?`, [commentId]);
+    res.json({ message: 'Comentario eliminado' });
+  } catch (err) {
+    console.error('Delete comment error:', err);
+    res.status(500).json({ error: 'Error al eliminar el comentario' });
   }
 });
 

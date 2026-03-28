@@ -160,6 +160,7 @@ function initReveal() {
 }
 
 async function loadPosts() {
+  const user = getUser();
   const postsContainer = document.getElementById('blog-posts');
   try {
     const posts = await api.getPosts();
@@ -168,40 +169,72 @@ async function loadPosts() {
       return;
     }
 
-    postsContainer.innerHTML = posts.map(post => `
-      <article class="card card--glass blog-post reveal" id="post-${post.id}">
-        <div class="card__content">
-          <div style="display: grid; grid-template-columns: ${post.image1 && post.image2 ? '1fr 1fr' : '1fr'}; gap: var(--space-4); margin-bottom: var(--space-6);">
-            ${post.image1 ? `<img src="${post.image1}" alt="${post.title}" style="width: 100%; height: 250px; object-fit: cover; border-radius: var(--radius-lg);">` : ''}
-            ${post.image2 ? `<img src="${post.image2}" alt="${post.title}" style="width: 100%; height: 250px; object-fit: cover; border-radius: var(--radius-lg);">` : ''}
-          </div>
-          <div class="blog-post__meta">
-            <span class="blog-post__author">${post.author_name}</span>
-            <span class="blog-post__date">${new Date(post.created_at).toLocaleDateString()}</span>
-          </div>
-          <h3 class="blog-post__title">${post.title}</h3>
-          <div class="blog-post__content">${post.content.replace(/\n/g, '<br>')}</div>
-          
-          <div class="blog-post__comments">
-            <h4 data-i18n="blog.comments_title">${t('blog.comments_title') || 'Comentarios'}</h4>
-            <div class="comments-list" id="comments-${post.id}">
-              ${post.comments && post.comments.length > 0 ? post.comments.map(c => `
-                <div class="comment">
-                  <strong>${c.user_name}:</strong> ${c.content}
-                </div>
-              `).join('') : '<p class="no-comments" style="font-size: var(--text-sm); color: var(--text-muted);">Sin comentarios.</p>'}
+    postsContainer.innerHTML = posts.map(post => {
+      const isOwner = user && user.id === post.author_id;
+      const isAdmin = user && user.role === 'admin';
+      const canManage = isOwner || isAdmin;
+
+      return `
+        <article class="card card--glass blog-post reveal" id="post-${post.id}">
+          <div class="card__content">
+            <div style="display: grid; grid-template-columns: ${post.image1 && post.image2 ? '1fr 1fr' : '1fr'}; gap: var(--space-4); margin-bottom: var(--space-6);">
+              ${post.image1 ? `<img src="${post.image1}" alt="${post.title}" style="width: 100%; height: 250px; object-fit: cover; border-radius: var(--radius-lg);">` : ''}
+              ${post.image2 ? `<img src="${post.image2}" alt="${post.title}" style="width: 100%; height: 250px; object-fit: cover; border-radius: var(--radius-lg);">` : ''}
             </div>
-            
-            ${isAuthenticated() ? `
-              <div class="comment-form-box" style="margin-top: var(--space-4); display: flex; gap: 8px;">
-                <input type="text" class="form-input comment-input" id="input-comment-${post.id}" placeholder="Escribe un comentario..." style="flex: 1;">
-                <button class="btn btn--sm btn--primary btn-send-comment" data-post-id="${post.id}">Enviar</button>
+            <div class="blog-post__meta" style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <span class="blog-post__author">${post.author_name}</span>
+                <span class="blog-post__date">${new Date(post.created_at).toLocaleDateString()}</span>
               </div>
-            ` : ''}
+              ${canManage ? `
+                <div class="blog-post__actions">
+                  <button class="btn-icon btn-edit-post" data-id="${post.id}" title="Editar">✏️</button>
+                  <button class="btn-icon btn-delete-post" data-id="${post.id}" title="Eliminar">🗑️</button>
+                </div>
+              ` : ''}
+            </div>
+            <h3 class="blog-post__title" id="title-${post.id}">${post.title}</h3>
+            <div class="blog-post__content" id="content-${post.id}">${post.content.replace(/\n/g, '<br>')}</div>
+            
+            <!-- Edit Form (Hidden) -->
+            <div id="edit-form-${post.id}" class="edit-post-form" style="display: none; margin-top: var(--space-4);">
+              <input type="text" id="edit-title-${post.id}" class="form-input" value="${post.title}" style="margin-bottom: 8px;">
+              <textarea id="edit-content-${post.id}" class="form-input" style="min-height: 120px; margin-bottom: 8px;">${post.content}</textarea>
+              <div style="display: flex; gap: 8px;">
+                <button class="btn btn--sm btn--primary btn-save-post" data-id="${post.id}">Guardar</button>
+                <button class="btn btn--sm btn--ghost btn-cancel-edit" data-id="${post.id}">Cancelar</button>
+              </div>
+            </div>
+
+            <div class="blog-post__comments">
+              <h4 data-i18n="blog.comments_title">${t('blog.comments_title') || 'Comentarios'}</h4>
+              <div class="comments-list" id="comments-${post.id}">
+                ${post.comments && post.comments.length > 0 ? post.comments.map(c => {
+                  const canDeleteComment = isAdmin || (user && user.id === c.user_id);
+                  return `
+                    <div class="comment" style="display: flex; justify-content: space-between; align-items: flex-start;">
+                      <div style="flex: 1;">
+                        <strong>${c.user_name}:</strong> ${c.content}
+                      </div>
+                      ${canDeleteComment ? `
+                        <button class="btn-icon btn-delete-comment" data-post-id="${post.id}" data-comment-id="${c.id}" title="Eliminar comentario" style="font-size: 14px; background: none; border: none; cursor: pointer; opacity: 0.6; transition: opacity 0.2s;">🗑️</button>
+                      ` : ''}
+                    </div>
+                  `;
+                }).join('') : '<p class="no-comments" style="font-size: var(--text-sm); color: var(--text-muted);">Sin comentarios.</p>'}
+              </div>
+              
+              ${isAuthenticated() ? `
+                <div class="comment-form-box" style="margin-top: var(--space-4); display: flex; gap: 8px;">
+                  <input type="text" class="form-input comment-input" id="input-comment-${post.id}" placeholder="Escribe un comentario..." style="flex: 1;">
+                  <button class="btn btn--sm btn--primary btn-send-comment" data-post-id="${post.id}">Enviar</button>
+                </div>
+              ` : ''}
+            </div>
           </div>
-        </div>
-      </article>
-    `).join('');
+        </article>
+      `;
+    }).join('');
 
     // Attach comment listeners
     document.querySelectorAll('.btn-send-comment').forEach(btn => {
@@ -214,11 +247,75 @@ async function loadPosts() {
             btn.disabled = true;
             await api.addComment(postId, content);
             input.value = '';
-            loadPosts(); // Reload to show new comment
+            loadPosts();
           } catch (err) {
             alert('Error al comentar: ' + err.message);
           } finally {
             btn.disabled = false;
+          }
+        }
+      });
+    });
+
+    // Attach Edit/Delete Post Listeners
+    document.querySelectorAll('.btn-delete-post').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if (confirm('¿Estás seguro de que quieres eliminar este post?')) {
+          try {
+            await api.deletePost(btn.dataset.id);
+            loadPosts();
+          } catch (err) {
+            alert('Error al eliminar post: ' + err.message);
+          }
+        }
+      });
+    });
+
+    document.querySelectorAll('.btn-edit-post').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        document.getElementById(`title-${id}`).style.display = 'none';
+        document.getElementById(`content-${id}`).style.display = 'none';
+        document.getElementById(`edit-form-${id}`).style.display = 'block';
+      });
+    });
+
+    document.querySelectorAll('.btn-cancel-edit').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        document.getElementById(`title-${id}`).style.display = 'block';
+        document.getElementById(`content-${id}`).style.display = 'block';
+        document.getElementById(`edit-form-${id}`).style.display = 'none';
+      });
+    });
+
+    document.querySelectorAll('.btn-save-post').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const id = btn.dataset.id;
+        const title = document.getElementById(`edit-title-${id}`).value;
+        const content = document.getElementById(`edit-content-${id}`).value;
+
+        try {
+          btn.disabled = true;
+          await api.updatePost(id, { title, content });
+          loadPosts();
+        } catch (err) {
+          alert('Error al actualizar post: ' + err.message);
+        } finally {
+          btn.disabled = false;
+        }
+      });
+    });
+
+    // Attach Delete Comment Listeners
+    document.querySelectorAll('.btn-delete-comment').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if (confirm('¿Eliminar este comentario?')) {
+          try {
+            await api.deleteComment(btn.dataset.postId, btn.dataset.commentId);
+            loadPosts();
+          } catch (err) {
+            alert('Error al eliminar comentario: ' + err.message);
           }
         }
       });

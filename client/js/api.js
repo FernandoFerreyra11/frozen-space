@@ -79,10 +79,23 @@ export const api = {
       method: 'POST',
       body: JSON.stringify(postData),
     }),
+  updatePost: (id, postData) =>
+    request(`/blog/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(postData),
+    }),
+  deletePost: (id) =>
+    request(`/blog/${id}`, {
+      method: 'DELETE',
+    }),
   addComment: (postId, content) =>
     request(`/blog/${postId}/comments`, {
       method: 'POST',
       body: JSON.stringify({ content }),
+    }),
+  deleteComment: (postId, commentId) =>
+    request(`/blog/${postId}/comments/${commentId}`, {
+      method: 'DELETE',
     }),
 
   // Demo
